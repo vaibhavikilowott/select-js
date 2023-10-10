@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Selection Sort</title>
+</head>
+<body>
+    <h1>Selection Sort in JavaScript</h1>
+
+    <label for="n">Enter the number of elements in the array:</label>
+    <input type="number" id="n">
+    <br>
+    <label for="elements">Enter the elements of the array (comma-separated):</label>
+    <input type="text" id="elements">
+    <br>
+    <button onclick="sortArray()">Sort</button>
+
+    <div id="output"></div>
+
+    <script>
+        function selectionSort(arr) {
+            var n = arr.length;
+
+            for (var i = 0; i < n - 1; i++) {
+                var minIndex = i; // Assume the current index has the minimum value
+
+                // Find the index of the minimum element in the unsorted portion
+                for (var j = i + 1; j < n; j++) {
+                    if (arr[j] < arr[minIndex]) {
+                        minIndex = j;
+                    }
+                }
+
+                // Swap the minimum element with the first element of the unsorted portion
+                var temp = arr[i];
+                arr[i] = arr[minIndex];
+                arr[minIndex] = temp;
+
+                // Print the current state of the array after each pass
+                var outputDiv = document.getElementById("output");
+                outputDiv.innerHTML += "Array after sorting pass " + (i + 1) + ": " + arr.join(", ") + "<br>";
+            }
+
+            return arr;
+        }
+
+        function sortArray() {
+            var n = parseInt(document.getElementById("n").value);
+            var elements = document.getElementById("elements").value;
+            var inputArray = elements.split(",");
+
+            // Parse and validate input
+            var validInput = true;
+            var arr = [];
+
+            for (var i = 0; i < inputArray.length; i++) {
+                var num = parseInt(inputArray[i].trim());
+                if (!Number.isInteger(num)) {
+                    validInput = false;
+                    break;
+                }
+                arr.push(num);
+            }
+
+            var outputDiv = document.getElementById("output");
+            outputDiv.innerHTML = "";
+
+            if (validInput && arr.length === n) {
+                outputDiv.innerHTML += "Original array: " + arr.join(", ") + "<br>";
+
+                var sortedArray = selectionSort(arr);
+                outputDiv.innerHTML += "Sorted array: " + sortedArray.join(", ") + "<br>";
+            } else {
+                outputDiv.innerHTML = "Invalid input. Please check the number of elements and values.";
+            }
+        }
+    </script>
+</body>
+</html>
